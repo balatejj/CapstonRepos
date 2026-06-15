@@ -1,0 +1,61 @@
+pipeline {
+    agent any
+
+    tools {
+        maven 'Maven3'
+        jdk 'jdk'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'master',
+                    url: 'https://github.com/balatejj/CapstonRepo.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                dir('TestAutomationPractice') {
+                    bat 'mvn clean'
+                }
+            }
+        }
+
+        stage('Compile') {
+            steps {
+                dir('TestAutomationPractice') {
+                    bat 'mvn compile'
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                dir('TestAutomationPractice') {
+                    bat 'mvn test'
+                }
+            }
+        }
+
+        stage('Package') {
+            steps {
+                dir('TestAutomationPractice') {
+                    bat 'mvn package'
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            junit '*/target/surefire-reports/*.xml'
+        }
+        success {
+            echo 'Build Successful'
+        }
+        failure {
+            echo 'Build Failed'
+        }
+    }
+}

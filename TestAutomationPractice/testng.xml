@@ -1,0 +1,8 @@
+
+<suite name="Advanced Practice Suite Validation">
+  <test name="Functional UI Tests">
+    <classes>
+      <class name="com.test.automation.BaseTest"/>
+    </classes>
+  </test>
+</suite>
